@@ -1,0 +1,271 @@
+<template name="meeting">
+
+  <!-- <div class="page-head">
+  <h2>{{meeting}}</h2>
+</div> -->
+<!-- include libraries(jQuery, bootstrap) -->
+<div class="main-content">
+  <div class="row">
+    <!-- ********************************************* -->
+    <!-- Bloc d'affichage des sujets � l'ordre du jour -->
+    <!-- ********************************************* -->
+    <!-- <div class="col-md-8">
+      <div class="panel panel-default panel-heading-fullwidth panel-primary">
+        <div class="panel-heading"><span class="title">Meeting Report</span></div>
+        <div class="panel-body">
+          <div id="textareaRich">
+                Your Meeting Report !!
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <div class="col-md-8">
+      <div class="panel panel-default panel-heading-fullwidth panel-primary">
+        <div class="panel-heading"><span class="title">Meeting Report</span></div>
+        <div class="panel-body">
+          <div class="row">
+              <label >Report Title : </label>
+              <input type="text" class="form-control" id="TitleReport" placeholder="Title">
+          </div>
+          <div class="row">
+            <div id="textareaRich">
+              Your Report's Meetings !!
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btn btn-success" id="saveReport">Save Meeting Report</button>
+    </div>
+
+
+    <div class="col-md-4">
+      <!-- ****************************************** -->
+      <!-- Bloc d'affichage des interventions pr�vues -->
+      <!-- ****************************************** -->
+      <div class="row-md-4">
+        <div class="panel panel-default panel-heading-fullwidth panel-primary">
+          <div class="panel-heading"><span class="title">People lining up</span></div>
+          <div class="panel-body">
+            <div class="row">
+              <!-- Bouton pour cr�er une demande d'intervention -->
+              <div class="col-md-4">
+                <input type="button" class="btn btn-primary" role="button" id="talkCancel" value="{{talk}}">
+              </div>
+              {{#if isAnimator}}
+              <!-- Boutons de gestion du don de temps de parole -->
+              <div class="col-md-8 text-right">
+                <input type="button" class="btn btn-primary" role="button" id="waitProceed" value="{{proceed}}" {{disabled}}>
+                <input type="button" class="btn btn-primary" role="button" id="next" value="Next" {{disabled}}>
+              </div>
+              {{/if}}
+            </div>
+            <div class="row" id="speech-list">
+              <div style="margin-top:10px"></div>
+              {{#each speeches}}
+              <div class="speech-item {{#if status}}active{{/if}}">
+                <div style="margin-bottom:-10px; position:relative;">
+                  <!-- Liste des interventions -->
+                  <div class="list-group">
+                    <div class="list-group-item{{#if status}} active{{/if}}">
+                      <h4 class="list-group-item-heading">
+                        {{user}}
+                        {{timeLeft}}
+                      </h4>
+                      <!-- <p class="list-group-item-text">
+                        Subject: {{orderChoose}}
+                        {{#if isSubject _id}}
+                        <br/>Keywords: {{subject}}
+                        {{/if}}
+                      </p> -->
+                      {{#if isAnimator}}
+                      <!-- Actions possibles en rapport avec une intervention -->
+                      <div style="position:absolute; left:365px; bottom:20px;">
+                        <div class="input-group speechRemove" speech-id="{{_id}}">
+                          <button type="button" class="btn btn-danger btn-xs remove-speech">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                          </button>
+                        </div>
+                      </div>
+                      {{/if}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {{/each}}
+            </div>
+          </div> <!-- panel-body -->
+        </div>
+      </div>
+
+
+
+      <!-- ************************************************************** -->
+      <!-- Bloc d'affichage des utilisateurs participants dans le meeting -->
+      <!-- ************************************************************** -->
+      <div class="row-md-4">
+        <div class="panel panel-default panel-heading-fullwidth panel-primary">
+          <div class="panel-heading"><span class="title">People on this meeting</span></div>
+          <div class="panel-body">
+            <div class="row">
+              {{#each users}}
+              <!-- Liste des intervenant -->
+              <div class="col-md-11" style="padding-right:0">
+                <div class="list-group">
+                    <h4 class="list-group-item-heading">{{name}}</h4>
+                    <p>
+                      {{#each paroles}}
+                      {{>parole}}
+                      {{/each}}
+                    </p>
+                </div>
+              </div>
+              <!-- Actions possibles en rapport avec l'intervenant -->
+              <div class="col-md-1" style="padding-left:0">
+                {{#if isSessionGuest name}}
+                <div class="input-group guestRemove" guest="{{name}}">
+                  <button type="button" class="btn btn-danger btn-xs removeGuest">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                  </button>
+                </div>
+                {{/if}}
+              </div>
+              {{/each}}
+            </div>
+          </div> <!-- panel-body -->
+        </div>
+      </div>
+      <!--End People on meeting -->
+
+      <!--Start Agenda
+      <div class="row-md-4">
+        <div class="panel panel-default panel-heading-fullwidth panel-primary">
+          <div class="panel-heading"><span class="title">Agenda</span></div>
+          <div class="panel-body">
+            <div class="row">
+              {{#if isReportLink}}
+              <div class="col-md-12">
+                <p><a href="{{reportLink}}" title="Collaborative document" target="_blank">Link of the report</a></p>
+              </div>
+              {{/if}}
+              {{#each ordres}}
+              <div class="col-md-11" style="padding-right:0; margin-bottom:-10px">
+                <div class="list-group">
+                  <div class="list-group-item">
+                    {{> ordre}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-1" style="padding-right:0">
+              </div>
+              {{/each}}
+            </div>
+          </div>
+        </div>
+      </div>
+    End Agenda-->
+    {{#if isAnimator}}
+    <div class="row-md-4">
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#localModal">Add local participant</button>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#invitationModal">Invite participants</button>
+              <button type="button" class="btn btn-danger" role="button" id="closeMeeting">Close meeting</button>
+
+  </div>
+    {{/if}}
+    </div>
+
+  </div> <!-- row des 3 colonnes -->
+
+  <!-- Boutons d'actions de l'animateur-->
+
+</div>
+
+<!-- ************************************ -->
+<!-- Modal d'ajout d'un participant local -->
+<!-- ************************************ -->
+<div class="modal fade" id="localModal" tabindex="-1" role="dialog" aria-labelledby="localModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="localModalLabel">New Local Participant</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form" id="localForm">
+          <div class="form-group name-input-group">
+            <label class="control-label">Participants' Name</label>
+            <div class="participantNameInput" rank="1">
+              <div class="xs-mb-15">
+                <input type="text" class="participantsName form-control" name="participantsName">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button id="localSubmit" type="submit" class="btn btn-primary">Add</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- **************************************** -->
+<!-- Modal d'ajout d'un participant ext�rieur -->
+<!-- **************************************** -->
+<div class="modal fade" id="invitationModal" tabindex="-1" role="dialog" aria-labelledby="invitationModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="invitationModalLabel">Invite Participants</h4>
+      </div>
+      <div class="modal-body">
+        <!--
+        <h3>By QR Code</h3>
+        <div id="qrcode"></div>
+      -->
+      <h3>By email address</h3>
+      <form role="form" id="inviteForm">
+        <div class="form-group email-input-group">
+          <label class="control-label">Your participants' e-mails</label>
+          <div class="participantEmailInput" rank="1">
+            <div class="input-group xs-mb-15"><span class="input-group-addon">@</span>
+              <input class="participantsEmails form-control" name="participantsEmails" type="email" parsley-type="email">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button id="inviteSubmit" type="submit" class="btn btn-primary">Invite</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ************************************************************************************************************* -->
+<!-- Modal de notification qui s'affiche sur le dashboard d'un intervenant auquel l'animateur a supprim� le speech -->
+<!-- ************************************************************************************************************* -->
+<div class="modal fade" id="speech-delete-modal" tabindex="-1" role="dialog" aria-labelledby="speech-delete-label">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="speech-delete-label">Invite Participants</h4>
+      </div>
+      <div class="modal-body">
+        Your speech have been deleted
+      </div>
+    </div>
+  </div>
+</div>
+</template>
+
+<template name="ordre">
+  <h4 class="list-group-item-heading"><b>{{ordre}}</b> - {{#if time}}{{time}} min estimated{{else}} no duration scheduled{{/if}}</h4>
+</template>
+
+<template name="parole">
+  <span>Speech Duration : {{displayTime time}}</span><br/>
+</template>

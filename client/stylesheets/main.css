@@ -1,0 +1,21 @@
+@font-face {
+  font-family: 'Airstream';
+  src: url('../fonts/Airstream.eot');
+  src: url('../fonts/Airstream.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/Airstream.woff') format('woff'),
+       url('../fonts/Airstream.ttf') format('truetype'),
+       url('../fonts/Airstream.svg#svgFontName') format('svg')
+  ;
+  font-weight: normal;
+  font-style: normal;
+}
+
+.title-font{
+  font-family: 'Airstream', sans-serif;
+}
+
+#qrcode {
+  width: 160px;
+  height: 160px;
+  margin-top: 15px;
+}
